@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import '../models/pet_model.dart';
+import '../repositary/pet_repository.dart';
+import '../services/stat_decay_service.dart';
+import '../widgets/pet_display_widget.dart';
+import '../widgets/pet_stat_bar.dart';
+import '../widgets/food_vertical_slider.dart';
+
+class PetScreen extends StatefulWidget {
+  final String petId;
+  const PetScreen({super.key, required this.petId});
+
+  @override
+  State<PetScreen> createState() => _PetScreenState();
+}
+
+class _PetScreenState extends State<PetScreen> {
+  final PetRepository _petRepo = PetRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    _syncDecayOnLoad();
+  }
+
+  // Calculate and save decay exactly once when screen opens
+  Future<void> _syncDecayOnLoad() async {
+    final streamDoc = await _petRepo.streamPet(widget.petId).first;
+    await _petRepo.saveDecayedStats(streamDoc);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Pet')),
+      body: StreamBuilder<PetModel>(
+        stream: _petRepo.streamPet(widget.petId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData) return const Center(child: Text('Pet not found'));
+
+          final pet = snapshot.data!;
+
+          return Column(
+            children: [
+              const SizedBox(height: 20),
+              PetDisplayWidget(pet: pet),
+              
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    PetStatBar(label: 'Health', value: pet.health, color: Colors.red),
+                    PetStatBar(label: 'Hunger', value: pet.hunger, color: Colors.orange),
+                    PetStatBar(label: 'Happiness', value: pet.happiness, color: Colors.green),
+                  ],
+                ),
+              ),
+
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Feed your pet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              
+              // Feature 3: Vertical Food Slider
+              Expanded(
+                child: FoodVerticalSlider(currentPet: pet),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "59634625636",
+    "project_id": "gamenutrition-e2003",
+    "storage_bucket": "gamenutrition-e2003.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59634625636:android:a9a0fc54056b7f698d4371",
+        "android_client_info": {
+          "package_name": "com.example.nutrition_game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhpz8wEzTR1HWRB6XcmoUnUWPRBkc668Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

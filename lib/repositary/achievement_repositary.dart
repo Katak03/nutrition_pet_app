@@ -13,15 +13,21 @@ class AchievementRepository {
     }).toList();
   }
 
-  /// Fetch IDs of already unlocked achievements for the user
-  Future<Set<String>> fetchUnlockedAchievementIds(String uid) async {
+  /// NEW: Fetch unlocked achievements AND their rewardClaimed status
+  Future<Map<String, bool>> fetchUnlockedAchievements(String uid) async {
     final snapshot = await _db
         .collection('users')
         .doc(uid)
         .collection('unlocked_achievements')
         .get();
     
-    return snapshot.docs.map((doc) => doc.id).toSet();
+    // Return a map of { "achievement_id": true/false }
+    Map<String, bool> unlockedData = {};
+    for (var doc in snapshot.docs) {
+      final data = doc.data();
+      unlockedData[doc.id] = data['rewardClaimed'] ?? false;
+    }
+    return unlockedData;
   }
 
   /// Safely unlock an achievement
@@ -35,7 +41,7 @@ class AchievementRepository {
     // Use set with merge to avoid overwriting if somehow called twice
     await ref.set({
       'earnedAt': FieldValue.serverTimestamp(),
-      'rewardClaimed': false,
+      'rewardClaimed': false, // Starts as false until user claims it
     }, SetOptions(merge: true));
   }
 }

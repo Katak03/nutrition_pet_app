@@ -6,7 +6,9 @@ class AchievementService {
   
   // In-memory caches to prevent duplicate Firestore reads
   List<Map<String, dynamic>> _masterAchievements = [];
-  Set<String> _unlockedIds = {};
+  
+  // CHANGED: Now stores Achievement ID -> rewardClaimed status
+  Map<String, bool> _unlockedAchievements = {}; 
   bool _isInitialized = false;
 
   AchievementService(this._repo);
@@ -14,15 +16,14 @@ class AchievementService {
   /// Called by the Engine on startup
   Future<void> initialize(String uid) async {
     _masterAchievements = await _repo.fetchMasterAchievements();
-    _unlockedIds = await _repo.fetchUnlockedAchievementIds(uid);
+    _unlockedAchievements = await _repo.fetchUnlockedAchievements(uid);
     _isInitialized = true;
-    print("DEBUG: AchievementService initialized. Loaded ${_masterAchievements.length} masters, ${_unlockedIds.length} unlocked.");
+    print("DEBUG: AchievementService initialized. Loaded ${_masterAchievements.length} masters, ${_unlockedAchievements.length} unlocked.");
   }
 
-  /// Get all achievements with their unlock status
+  /// Get ONLY achievements where rewardClaimed == true
   Future<List<Map<String, dynamic>>> getAchievements() async {
     try {
-      // Fetch fresh data if not initialized
       if (!_isInitialized) {
         final uid = FirebaseAuth.instance.currentUser?.uid;
         if (uid != null) {
@@ -30,13 +31,21 @@ class AchievementService {
         }
       }
 
-      // Return achievements with isUnlocked flag
-      return _masterAchievements.map((achievement) {
-        return {
-          ...achievement,
-          'isUnlocked': _unlockedIds.contains(achievement['id']),
-        };
-      }).toList();
+      List<Map<String, dynamic>> claimedAchievements = [];
+
+      for (var achievement in _masterAchievements) {
+        String id = achievement['id'];
+        
+        // Filter logic: Check if it's unlocked AND rewardClaimed is true
+        if (_unlockedAchievements.containsKey(id) && _unlockedAchievements[id] == true) {
+          claimedAchievements.add({
+            ...achievement,
+            'isUnlocked': true,
+          });
+        }
+      }
+
+      return claimedAchievements;
     } catch (e) {
       print('Error fetching achievements: $e');
       return [];
@@ -50,8 +59,8 @@ class AchievementService {
     for (var achievement in _masterAchievements) {
       String id = achievement['id'];
       
-      // Skip if already unlocked
-      if (_unlockedIds.contains(id)) continue;
+      // Skip if already unlocked (we check this regardless of claim status so the engine doesn't fire duplicates)
+      if (_unlockedAchievements.containsKey(id)) continue;
 
       Map<String, dynamic> criteria = achievement['criteria'] ?? {};
       String type = criteria['type']; // e.g., 'level', 'streak'
@@ -67,8 +76,8 @@ class AchievementService {
       if (isUnlocked) {
         print("🎉 ACHIEVEMENT UNLOCKED: ${achievement['title']}!");
         
-        // 1. Add to local cache immediately to prevent duplicate triggers
-        _unlockedIds.add(id); 
+        // 1. Add to local cache as unlocked, but rewardClaimed is FALSE
+        _unlockedAchievements[id] = false; 
         
         // 2. Persist to Firestore
         await _repo.unlockAchievement(uid, id);
@@ -92,7 +101,7 @@ class AchievementService {
   /// Clear cache on logout
   void clear() {
     _masterAchievements.clear();
-    _unlockedIds.clear();
+    _unlockedAchievements.clear();
     _isInitialized = false;
   }
 }

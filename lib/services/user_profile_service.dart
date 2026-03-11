@@ -116,9 +116,9 @@ Future<List<double>> getCurrentWeekCalories(String uid) async {
         },
         'vitamins': {
           'a': 0,
-          'b12': 0,
+          'b1': 0,
           'c': 0,
-          'd': 0,
+          'b2': 0,
         },
         'foodEntries': [],
       });

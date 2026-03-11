@@ -172,9 +172,9 @@ class _ProfilePageState extends State<ProfilePage> {
           const Text("Vitamin Intake", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
           _vitaminBar("A", log.vitamins['a']!, 900, "mcg"),
-          _vitaminBar("B12", log.vitamins['b12']!, 2.4, "mcg"),
+          _vitaminBar("B1", log.vitamins['b1']!, 1.2, "mg"),
           _vitaminBar("C", log.vitamins['c']!, 90, "mg"),
-          _vitaminBar("D", log.vitamins['d']!, 15, "mcg"),
+          _vitaminBar("B2", log.vitamins['b2']!, 1.3, "mg"),
         ],
       ),
     );

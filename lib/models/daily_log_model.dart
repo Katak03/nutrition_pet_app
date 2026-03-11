@@ -21,15 +21,13 @@ class DailyLogModel {
   
   // 1. Get the list of food entries
   final List<dynamic> foodEntries = data['foodEntries'] ?? [];
-  final Map<String, dynamic> m = data['macros'] is Map ? data['macros'] : {};
-  final Map<String, dynamic> v = data['vitamins'] is Map ? data['vitamins'] : {};
   
   // 2. Initialize our counters
   double calculatedCalories = 0;
   double p = 0;
   double c = 0;
   double f = 0;
-  double vitA = 0, vitB12 = 0, vitC = 0, vitD = 0;
+  double vitA = 0, vitB1 = 0, vitC = 0, vitB2 = 0;
 
   // 3. Loop through each entry and sum the values
   for (var entry in foodEntries) {
@@ -47,9 +45,9 @@ class DailyLogModel {
     // Sum Vitamins (if present in the food entry)
     final v = entryData['vitamins'] ?? {};
     vitA += (v['vitamin_a'] ?? 0).toDouble();
-    vitB12 += (v['vitamin_b12'] ?? 0).toDouble();
+    vitB1 += (v['vitamin_b1'] ?? 0).toDouble();
     vitC += (v['vitamin_c'] ?? 0).toDouble();
-    vitD += (v['vitamin_d'] ?? 0).toDouble();
+    vitB2 += (v['vitamin_b2'] ?? 0).toDouble();
   }
 
   return DailyLogModel(
@@ -63,7 +61,7 @@ class DailyLogModel {
       'carbs': c,
       'fats': f,
     },
-    vitamins: {'a': vitA, 'b12': vitB12, 'c': vitC, 'd': vitD},
+    vitamins: {'a': vitA, 'b1': vitB1, 'c': vitC, 'b2': vitB2},
   );
 }
 
@@ -72,6 +70,6 @@ class DailyLogModel {
     totalCalories: 0,
     water: 0,
     macros: {'protein': 0, 'carbs': 0, 'fats': 0},
-    vitamins: {'a': 0, 'b12': 0, 'c': 0, 'd': 0},
+    vitamins: {'a': 0, 'b1': 0, 'c': 0, 'b2': 0},
   );
 }

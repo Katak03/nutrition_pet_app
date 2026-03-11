@@ -47,15 +47,23 @@ class _PetSpeechBubbleState extends State<PetSpeechBubble> with SingleTickerProv
   }
 
   void _startBubbleAnimation() async {
+    if (!mounted) return;
+    
     // Fade in + slide in
     await _animationController.forward();
 
+    if (!mounted) return;
+    
     // Wait before starting fade out
     await Future.delayed(widget.displayDuration - const Duration(milliseconds: 400));
 
+    if (!mounted) return;
+    
     // Fade out + slide out
     await _animationController.reverse();
 
+    if (!mounted) return;
+    
     // Dismiss callback
     widget.onDismiss?.call();
   }

@@ -5,9 +5,9 @@ import '../models/daily_log_model.dart';
 /// Daily nutrition recommendations (standard guidelines)
 class NutritionRecommendations {
   static const double vitaminA = 700; // mcg
-  static const double vitaminB12 = 2.4; // mcg
+  static const double vitaminB1 = 1.2; // mg
   static const double vitaminC = 75; // mg
-  static const double vitaminD = 600; // IU
+  static const double vitaminB2 = 1.3; // mg
   static const double water = 2000; // ml
   static const double protein = 50; // g
 }
@@ -16,9 +16,9 @@ class NutritionRecommendations {
 class NutrientMessages {
   static final Map<String, String> messages = {
     'vitamin_a': "I need more Vitamin A to help my vision!",
-    'vitamin_b12': "I'm low on energy, I need Vitamin B12!",
+    'vitamin_b1': "I need more Vitamin B1 for energy!",
     'vitamin_c': "I'm feeling weak, can I have more Vitamin C?",
-    'vitamin_d': "I need Vitamin D to keep my bones strong!",
+    'vitamin_b2': "I need Vitamin B2 for cell growth!",
     'water': "I'm thirsty! Can I have some water?",
     'protein': "I need more protein to grow stronger!",
   };
@@ -79,9 +79,9 @@ class NutritionAlertService {
       lowNutrients.add('vitamin_a');
     }
 
-    // Check Vitamin B12
-    if (logs.every((log) => (log.vitamins['b12'] ?? 0) < NutritionRecommendations.vitaminB12)) {
-      lowNutrients.add('vitamin_b12');
+    // Check Vitamin B1
+    if (logs.every((log) => (log.vitamins['b1'] ?? 0) < NutritionRecommendations.vitaminB1)) {
+      lowNutrients.add('vitamin_b1');
     }
 
     // Check Vitamin C
@@ -89,9 +89,9 @@ class NutritionAlertService {
       lowNutrients.add('vitamin_c');
     }
 
-    // Check Vitamin D
-    if (logs.every((log) => (log.vitamins['d'] ?? 0) < NutritionRecommendations.vitaminD)) {
-      lowNutrients.add('vitamin_d');
+    // Check Vitamin B2
+    if (logs.every((log) => (log.vitamins['b2'] ?? 0) < NutritionRecommendations.vitaminB2)) {
+      lowNutrients.add('vitamin_b2');
     }
 
     // Check Water

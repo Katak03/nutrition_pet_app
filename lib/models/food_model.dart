@@ -27,9 +27,9 @@ class FoodModel {
 
   // UPDATED: These must match the "vitamin_" prefix found in your Firestore
   num get vitA => vitamins['vitamin_a'] ?? 0;
-  num get vitB12 => vitamins['vitamin_b12'] ?? 0;
+  num get vitB1 => vitamins['vitamin_b1'] ?? 0;
   num get vitC => vitamins['vitamin_c'] ?? 0;
-  num get vitD => vitamins['vitamin_d'] ?? 0;
+  num get vitB2 => vitamins['vitamin_b2'] ?? 0;
 
   factory FoodModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>? ?? {};

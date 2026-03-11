@@ -19,8 +19,8 @@ class PetAssetResolver {
         return 'eye_sick_pet';
       }
       if (recentLogs.length >= 2 &&
-          recentLogs[recentLogs.length - 2].vitamins['b12']! < 2.4 &&
-          log.vitamins['b12']! < 2.4) {
+          recentLogs[recentLogs.length - 2].vitamins['b1']! < 1.2 &&
+          log.vitamins['b1']! < 1.2) {
         return 'tired_pet';
       }
       if (recentLogs.length >= 2 &&
@@ -29,8 +29,8 @@ class PetAssetResolver {
         return 'bandage cat';
       }
       if (recentLogs.length >= 2 &&
-          recentLogs[recentLogs.length - 2].vitamins['d']! < 15 &&
-          log.vitamins['d']! < 15) {
+          recentLogs[recentLogs.length - 2].vitamins['b2']! < 1.3 &&
+          log.vitamins['b2']! < 1.3) {
         return 'weak_pet';
       }
     }

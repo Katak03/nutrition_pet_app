@@ -69,7 +69,7 @@ class FoodCard extends StatelessWidget {
                         ],
                       ),
                       
-                      // Column 2: Calories & Vits A/B12
+                      // Column 2: Calories & Vits A/B1
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -77,17 +77,17 @@ class FoodCard extends StatelessWidget {
                           const SizedBox(height: 8),
                           _buildStatText('A', '${food.vitA}mcg'),
                           const SizedBox(height: 8),
-                          _buildStatText('B12', '${food.vitB12}mcg'),
+                          _buildStatText('B1', '${food.vitB1}mg'),
                         ],
                       ),
 
-                      // Column 3: Vits C/D
+                      // Column 3: Vits C/B2
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildStatText('C', '${food.vitC}mcg'),
+                          _buildStatText('C', '${food.vitC}mg'),
                           const SizedBox(height: 8),
-                          _buildStatText('D', '${food.vitD}mcg'),
+                          _buildStatText('B2', '${food.vitB2}mg'),
                         ],
                       ),
                     ],

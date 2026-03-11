@@ -56,9 +56,9 @@ class FeedPetService {
       },
       'vitamins': { 
         'a': FieldValue.increment(food.vitA),
-        'b12': FieldValue.increment(food.vitB12),
+        'b1': FieldValue.increment(food.vitB1),
         'c': FieldValue.increment(food.vitC),
-        'd': FieldValue.increment(food.vitD),
+        'b2': FieldValue.increment(food.vitB2),
       },
     }, SetOptions(merge: true));
 
@@ -71,9 +71,9 @@ class FeedPetService {
       'petEffect': food.petEffect,
       'vitamins': {
         'vitamin_a': food.vitA, 
-        'vitamin_b12': food.vitB12, 
+        'vitamin_b1': food.vitB1, 
         'vitamin_c': food.vitC, 
-        'vitamin_d': food.vitD
+        'vitamin_b2': food.vitB2
       }
     };
     

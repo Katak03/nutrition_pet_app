@@ -39,14 +39,14 @@ class FB {
   // Vitamins (Handling both formats from your JSON)
   static const String vitamins = 'vitamins';
   static const String vitA = 'a';
-  static const String vitB12 = 'b12';
+  static const String vitB1 = 'b1';
   static const String vitC = 'c';
-  static const String vitD = 'd';
+  static const String vitB2 = 'b2';
   // Specific keys found in 'Foods' collection
   static const String vitA_full = 'vitamin_a';
-  static const String vitB12_full = 'vitamin_b12';
+  static const String vitB1_full = 'vitamin_b1';
   static const String vitC_full = 'vitamin_c';
-  static const String vitD_full = 'vitamin_d';
+  static const String vitB2_full = 'vitamin_b2';
 
   // Pet Fields
   static const String name = 'name';

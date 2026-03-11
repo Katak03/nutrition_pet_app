@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../models/pet_model.dart';
 import '../repositary/pet_repository.dart';
 import '../services/stat_decay_service.dart';
+import '../services/nutrition_alert_service.dart';
 import '../widgets/pet_display_widget.dart';
 import '../widgets/pet_stat_bar.dart';
 import '../widgets/food_vertical_slider.dart';
+import '../widgets/pet_speech_bubble.dart';
 
 class PetScreen extends StatefulWidget {
   final String petId;
@@ -16,17 +18,32 @@ class PetScreen extends StatefulWidget {
 
 class _PetScreenState extends State<PetScreen> {
   final PetRepository _petRepo = PetRepository();
+  final NutritionAlertService _nutritionAlertService = NutritionAlertService();
+  String? _bubbleMessage;
+  bool _showBubble = true;
 
   @override
   void initState() {
     super.initState();
     _syncDecayOnLoad();
+    _checkNutritionAlert();
   }
 
   // Calculate and save decay exactly once when screen opens
   Future<void> _syncDecayOnLoad() async {
     final streamDoc = await _petRepo.streamPet(widget.petId).first;
     await _petRepo.saveDecayedStats(streamDoc);
+  }
+
+  // Check for nutrition alerts and get message if needed
+  Future<void> _checkNutritionAlert() async {
+    final message = await _nutritionAlertService.getRandomNutrientMessage();
+    if (mounted) {
+      setState(() {
+        _bubbleMessage = message;
+        _showBubble = message != null;
+      });
+    }
   }
 
   @override
@@ -44,6 +61,17 @@ class _PetScreenState extends State<PetScreen> {
           return Column(
             children: [
               const SizedBox(height: 20),
+              // Pet display with speech bubble
+              if (_showBubble && _bubbleMessage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                  child: PetSpeechBubble(
+                    message: _bubbleMessage!,
+                    onDismiss: () {
+                      setState(() => _showBubble = false);
+                    },
+                  ),
+                ),
               PetDisplayWidget(pet: pet),
               
               Padding(

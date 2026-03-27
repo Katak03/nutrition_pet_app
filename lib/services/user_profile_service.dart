@@ -12,7 +12,7 @@ class UserProfileService {
   Stream<UserModel> streamUser() {
     return _db.collection('users').doc(uid).snapshots().map((doc) {
       // Pass doc.data() as a Map to your factory
-      return UserModel.fromFirestore(doc.data() as Map<String, dynamic>? ?? {});
+      return UserModel.fromFirestore(doc.data() ?? {});
     });
   }
 
@@ -109,6 +109,7 @@ Future<List<double>> getCurrentWeekCalories(String uid) async {
       await logRef.set({
         'totalCalories': 0,
         'water': 0,
+        'sugar': 0,
         'macros': {
           'protein': 0,
           'carbs': 0,

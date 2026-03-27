@@ -42,13 +42,17 @@ class FeedPetService {
       'calories': food.calories,
       'macros': food.macros,
       'vitamins': food.vitamins,
-      'petEffect': food.petEffect, 
+      'petEffect': food.petEffect,
+      'type': food.type,
+      'sugar': food.sugar,
       'timestamp': Timestamp.now()
     };
 
-    batch.set(logRef, {
+    // Build log update with conditional water increment for drinks
+    final logUpdate = {
       'foodEntries': FieldValue.arrayUnion([foodEntry]),
       'totalCalories': FieldValue.increment(food.calories),
+      'sugar': FieldValue.increment(food.sugar),
       'macros': {
         'protein': FieldValue.increment(food.macros['protein'] ?? 0),
         'carbs': FieldValue.increment(food.macros['carbs'] ?? 0),
@@ -60,7 +64,14 @@ class FeedPetService {
         'c': FieldValue.increment(food.vitC),
         'b2': FieldValue.increment(food.vitB2),
       },
-    }, SetOptions(merge: true));
+    };
+
+    // Add water increment if food type is drink
+    if (food.type == 'drink') {
+      logUpdate['water'] = FieldValue.increment(1);
+    }
+
+    batch.set(logRef, logUpdate, SetOptions(merge: true));
 
     // 3. Commit the feeding logs FIRST
     await batch.commit();

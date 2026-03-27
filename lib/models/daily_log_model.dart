@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DailyLogModel {
   final double totalCalories;
   final double water;
+  final double sugar;
   final Map<String, double> macros;
   final Map<String, double> vitamins;
   final DateTime date;
@@ -11,6 +12,7 @@ class DailyLogModel {
   DailyLogModel({
     required this.totalCalories,
     required this.water,
+    required this.sugar,
     required this.macros,
     required this.vitamins,
     required this.date,
@@ -28,6 +30,7 @@ class DailyLogModel {
   double c = 0;
   double f = 0;
   double vitA = 0, vitB1 = 0, vitC = 0, vitB2 = 0;
+  double totalSugar = 0;
 
   // 3. Loop through each entry and sum the values
   for (var entry in foodEntries) {
@@ -43,11 +46,15 @@ class DailyLogModel {
     f += (m['fats'] ?? 0).toDouble();
     
     // Sum Vitamins (if present in the food entry)
+    // Read from new Firestore structure (a, b1, c, b2)
     final v = entryData['vitamins'] ?? {};
-    vitA += (v['vitamin_a'] ?? 0).toDouble();
-    vitB1 += (v['vitamin_b1'] ?? 0).toDouble();
-    vitC += (v['vitamin_c'] ?? 0).toDouble();
-    vitB2 += (v['vitamin_b2'] ?? 0).toDouble();
+    vitA += (v['a'] ?? 0).toDouble();
+    vitB1 += (v['b1'] ?? 0).toDouble();
+    vitC += (v['c'] ?? 0).toDouble();
+    vitB2 += (v['b2'] ?? 0).toDouble();
+    
+    // Sum Sugar
+    totalSugar += (entryData['sugar'] ?? 0).toDouble();
   }
 
   return DailyLogModel(
@@ -56,6 +63,7 @@ class DailyLogModel {
     totalCalories: calculatedCalories,
     // Fetch top-level fields like the water you added manually
     water: (data['water'] ?? 0).toDouble(),
+    sugar: totalSugar,
     macros: {
       'protein': p,
       'carbs': c,
@@ -69,6 +77,7 @@ class DailyLogModel {
     date: date,
     totalCalories: 0,
     water: 0,
+    sugar: 0,
     macros: {'protein': 0, 'carbs': 0, 'fats': 0},
     vitamins: {'a': 0, 'b1': 0, 'c': 0, 'b2': 0},
   );

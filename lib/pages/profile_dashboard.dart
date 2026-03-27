@@ -90,6 +90,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         _buildCircularMacro("Water", log.water, 6, Colors.blueAccent, "glass"),
                       ],
                     ),
+                    const SizedBox(height: 20),
+
+                    // 4b. Sugar Card
+                    _buildSugarCard(log.sugar),
                     const SizedBox(height: 25),
 
                     // 5. Vitamin Section (From Mock 5.png)
@@ -162,6 +166,30 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget _buildSugarCard(double sugar) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Sugar Intake", style: TextStyle(color: Colors.grey[600])),
+          Text("${sugar.toInt()}g", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.redAccent)),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: (sugar / 50).clamp(0.0, 1.0),
+              backgroundColor: Colors.redAccent.withOpacity(0.1),
+              valueColor: const AlwaysStoppedAnimation(Colors.redAccent),
+              minHeight: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildVitaminSection(DailyLogModel log) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -171,10 +199,10 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           const Text("Vitamin Intake", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 20),
-          _vitaminBar("A", log.vitamins['a']!, 900, "mcg"),
-          _vitaminBar("B1", log.vitamins['b1']!, 1.2, "mg"),
+          _vitaminBar("A", log.vitamins['a']!, 0.9, "mg"),
+          _vitaminBar("B1", log.vitamins['b1']!, 3, "mg"),
           _vitaminBar("C", log.vitamins['c']!, 90, "mg"),
-          _vitaminBar("B2", log.vitamins['b2']!, 1.3, "mg"),
+          _vitaminBar("B2", log.vitamins['b2']!, 1.4, "mg"),
         ],
       ),
     );
@@ -198,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           const SizedBox(width: 10),
-          Text("${current.toInt()}/$target $unit", style: const TextStyle(fontSize: 12)),
+          Text("${current.toStringAsFixed(2)}/$target $unit", style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

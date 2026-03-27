@@ -167,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      value: _selectedSex,
+                      initialValue: _selectedSex,
                       decoration: const InputDecoration(labelText: "Sex", border: OutlineInputBorder()),
                       items: ['Male', 'Female'].map((String val) {
                         return DropdownMenuItem(value: val, child: Text(val));
@@ -201,7 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: _selectedActivityLevel,
+                initialValue: _selectedActivityLevel,
                 decoration: const InputDecoration(labelText: "Activity Level", border: OutlineInputBorder()),
                 items: ['low', 'moderate', 'high'].map((String val) {
                   return DropdownMenuItem(value: val, child: Text(val.toUpperCase()));
@@ -210,7 +210,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: _selectedGoalType,
+                initialValue: _selectedGoalType,
                 decoration: const InputDecoration(labelText: "Goal Type", border: OutlineInputBorder()),
                 items: ['lose', 'maintain', 'gain'].map((String val) {
                   return DropdownMenuItem(value: val, child: Text(val.toUpperCase()));

@@ -38,11 +38,11 @@ class LevelUpOverlay extends StatefulWidget {
   final VoidCallback onDismiss;
 
   const LevelUpOverlay({
-    Key? key,
+    super.key,
     required this.oldLevel,
     required this.newLevel,
     required this.onDismiss,
-  }) : super(key: key);
+  });
 
   @override
   State<LevelUpOverlay> createState() => _LevelUpOverlayState();

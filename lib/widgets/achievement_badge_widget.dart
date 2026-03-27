@@ -5,10 +5,10 @@ class AchievementBadgeWidget extends StatelessWidget {
   final double size;
 
   const AchievementBadgeWidget({
-    Key? key, 
+    super.key, 
     required this.assetId,
     this.size = 60.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

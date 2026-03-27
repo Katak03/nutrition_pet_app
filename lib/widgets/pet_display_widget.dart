@@ -61,24 +61,43 @@ class _PetDisplayWidgetState extends State<PetDisplayWidget> {
           happiness: widget.pet.happiness,
           log: currentLog,
           recentLogs: recentLogs,
-        ) : 'happy_pet'; // default if no log
+        ) : 'happy'; // default if no log
+
+        // Map assetName to actual image paths
+        String imagePath;
+        switch (assetName) {
+          case 'happy':
+            imagePath = 'lib/images/pet_happy.png';
+            break;
+          case 'sad':
+            imagePath = 'lib/images/pet_sad.png';
+            break;
+          case 'hungry':
+            imagePath = 'lib/images/pet_hungry.png';
+            break;
+          case 'sick':
+            imagePath = 'lib/images/pet_sick.png';
+            break;
+          case 'def_a':
+            imagePath = 'lib/images/pet_defA.png';
+            break;
+          case 'def_b1':
+            imagePath = 'lib/images/pet_defB1.png';
+            break;
+          case 'def_b2':
+            imagePath = 'lib/images/pet_defB2.png';
+            break;
+          case 'def_c':
+            imagePath = 'lib/images/pet_defC.png';
+            break;
+          default:
+            imagePath = 'lib/images/pet_happy.png';
+        }
 
         return Column(
           children: [
-            // ---------------------------------------------------------
-            // USE THIS LATER: When you have the actual pet images
-            // ---------------------------------------------------------
-            // Image.asset(
-            //   'assets/pets/$assetName.png', 
-            //   height: 200, 
-            //   errorBuilder: (c, e, s) => const Icon(Icons.pets, size: 100),
-            // ),
-
-            // ---------------------------------------------------------
-            // USING THIS NOW: Safe placeholder image
-            // ---------------------------------------------------------
             Image.asset(
-              'assets/images/placeholder.png', 
+              imagePath,
               height: 200,
               width: 200,
               fit: BoxFit.cover,

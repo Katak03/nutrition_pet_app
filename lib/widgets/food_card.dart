@@ -22,14 +22,37 @@ class FoodCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Food Name at the top left
+            // Food Name at the top left with Type and Sugar badge
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    food.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    food.type,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.orange[700]),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             Text(
-              food.name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
+              'Sugar: ${food.sugar}g',
+              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             ),
             const SizedBox(height: 12),
             
@@ -54,41 +77,43 @@ class FoodCard extends StatelessWidget {
                 // RIGHT SIDE: Stats organized in columns
                 Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Column 1: Macros
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatText('Protein', '${food.protein}g'),
-                          const SizedBox(height: 8),
-                          _buildStatText('Carbs', '${food.carbs}g'),
-                          const SizedBox(height: 8),
-                          _buildStatText('Fats', '${food.fats}g'),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatText('Protein', '${food.protein}g'),
+                            const SizedBox(height: 8),
+                            _buildStatText('Carbs', '${food.carbs}g'),
+                            const SizedBox(height: 8),
+                            _buildStatText('Fats', '${food.fats}g'),
+                          ],
+                        ),
                       ),
-                      
-                      // Column 2: Calories & Vits A/B1
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatText('Calorie', '${food.calories}'),
-                          const SizedBox(height: 8),
-                          _buildStatText('A', '${food.vitA}mcg'),
-                          const SizedBox(height: 8),
-                          _buildStatText('B1', '${food.vitB1}mg'),
-                        ],
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatText('Calorie', '${food.calories}'),
+                            const SizedBox(height: 8),
+                            _buildStatText('A', '${food.vitA}mcg'),
+                            const SizedBox(height: 8),
+                            _buildStatText('B1', '${food.vitB1}mg'),
+                          ],
+                        ),
                       ),
-
-                      // Column 3: Vits C/B2
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildStatText('C', '${food.vitC}mg'),
-                          const SizedBox(height: 8),
-                          _buildStatText('B2', '${food.vitB2}mg'),
-                        ],
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildStatText('C', '${food.vitC}mg'),
+                            const SizedBox(height: 8),
+                            _buildStatText('B2', '${food.vitB2}mg'),
+                          ],
+                        ),
                       ),
                     ],
                   ),

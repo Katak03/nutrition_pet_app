@@ -9,6 +9,8 @@ class FoodModel {
   final Map<String, dynamic> vitamins;
   final Map<String, dynamic> petEffect; 
   final String assetId;
+  final String type; // food, drink, snack
+  final num sugar;
 
   FoodModel({
     required this.id,
@@ -18,6 +20,8 @@ class FoodModel {
     required this.vitamins,
     required this.petEffect,
     required this.assetId,
+    this.type = 'food',
+    this.sugar = 0,
   });
 
   // Macros match your Firestore keys (protein, carbs, fats)
@@ -25,11 +29,12 @@ class FoodModel {
   num get carbs => macros['carbs'] ?? 0;
   num get fats => macros['fats'] ?? 0;
 
-  // UPDATED: These must match the "vitamin_" prefix found in your Firestore
-  num get vitA => vitamins['vitamin_a'] ?? 0;
-  num get vitB1 => vitamins['vitamin_b1'] ?? 0;
-  num get vitC => vitamins['vitamin_c'] ?? 0;
-  num get vitB2 => vitamins['vitamin_b2'] ?? 0;
+  // Read vitamins from the new Firestore structure (a, b1, c, b2)
+  // Defaults to 0 if missing (null safety)
+  num get vitA => vitamins['a'] ?? 0;
+  num get vitB1 => vitamins['b1'] ?? 0;
+  num get vitC => vitamins['c'] ?? 0;
+  num get vitB2 => vitamins['b2'] ?? 0;
 
   factory FoodModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>? ?? {};
@@ -42,6 +47,8 @@ class FoodModel {
       vitamins: data['vitamins'] ?? {},
       petEffect: data['petEffect'] ?? {}, 
       assetId: data['assetId'] ?? 'placeholder',
+      type: data['type'] ?? 'food',
+      sugar: data['sugar'] ?? 0,
     );
   }
 }

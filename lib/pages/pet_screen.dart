@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/pet_model.dart';
 import '../repositary/pet_repository.dart';
-import '../services/stat_decay_service.dart';
 import '../services/nutrition_alert_service.dart';
 import '../widgets/pet_display_widget.dart';
 import '../widgets/pet_stat_bar.dart';

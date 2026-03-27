@@ -12,10 +12,10 @@ class PetProfile extends StatefulWidget {
   final AchievementService achievementService;
 
   const PetProfile({
-    Key? key,
+    super.key,
     required this.gamificationService,
     required this.achievementService,
-  }) : super(key: key);
+  });
 
   @override
   State<PetProfile> createState() => _PetProfileState();

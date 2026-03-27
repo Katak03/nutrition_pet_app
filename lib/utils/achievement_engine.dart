@@ -10,7 +10,7 @@ class AchievementEngine {
   StreamSubscription? _logSubscription;
 
   // Store latest values to combine them
-  Map<String, dynamic> _latestStats = {
+  final Map<String, dynamic> _latestStats = {
     'level': 0,
     'streak': 0,
     'totalScore': 0,

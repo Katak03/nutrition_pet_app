@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/pet_model.dart';
 import '../repositary/pet_repository.dart';
 import '../services/nutrition_alert_service.dart';
+import '../services/widget_projection_service.dart';
 import '../widgets/pet_display_widget.dart';
 import '../widgets/pet_stat_bar.dart';
 import '../widgets/food_vertical_slider.dart';
@@ -56,6 +57,8 @@ class _PetScreenState extends State<PetScreen> {
           if (!snapshot.hasData) return const Center(child: Text('Pet not found'));
 
           final pet = snapshot.data!;
+          
+          
 
           return Column(
             children: [

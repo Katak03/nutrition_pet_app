@@ -12,7 +12,6 @@ import SwiftUI
 struct NutritionPetWidgetBundle: WidgetBundle {
     var body: some Widget {
         NutritionPetWidget()
-        NutritionPetWidgetControl()
-        NutritionPetWidgetLiveActivity()
+        
     }
 }

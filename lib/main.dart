@@ -9,6 +9,7 @@ import 'package:nutrition_game/services/achievement_service.dart';
 import 'package:nutrition_game/repositary/achievement_repositary.dart'; // Assuming this is your spelling!
 import 'package:nutrition_game/utils/firebase_keys.dart';
 import 'package:nutrition_game/services/widget_projection_service.dart';
+import 'package:nutrition_game/services/widget_state_export_service.dart';
 import 'package:nutrition_game/models/pet_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,22 +24,25 @@ final AchievementEngine achievementEngine = AchievementEngine(achievementService
 // --- 3. APP LIFECYCLE OBSERVER FOR HOME WIDGET ---
 class _AppLifecycleObserver extends WidgetsBindingObserver {
   final Future<PetModel?> Function() getCurrentPet;
+  final WidgetStateExportService _widgetExportService = WidgetStateExportService();
   
   _AppLifecycleObserver({required this.getCurrentPet});
   
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.paused) {
-      // App going to background — save current data and timeline for home widget
-      final pet = await getCurrentPet();
-      if (pet != null) {
-        // Save current values immediately
-        
+      // App going to background — export current pet state to iOS widget
+      debugPrint('[Lifecycle] App entering background, exporting pet snapshot...');
+      final success = await _widgetExportService.exportPetSnapshot();
+      if (success) {
+        debugPrint('[Lifecycle] Pet snapshot exported successfully for widget display');
+      } else {
+        debugPrint('[Lifecycle] Failed to export pet snapshot (will retry on next background)');
       }
     }
     if (state == AppLifecycleState.resumed) {
       // App came back — Firebase listener will fire and overwrite with real value
-      // Nothing extra needed here
+      debugPrint('[Lifecycle] App resumed from background');
     }
   }
 }
